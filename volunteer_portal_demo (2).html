@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AdventHealth Polk — Volunteer Onboarding Portal</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0B3D6E;
+    --blue: #1565C0;
+    --blue-light: #E3F2FD;
+    --teal: #00695C;
+    --teal-light: #E0F2F1;
+    --amber: #E65100;
+    --amber-light: #FFF8E1;
+    --red: #C62828;
+    --red-light: #FFEBEE;
+    --green: #2E7D32;
+    --green-light: #E8F5E9;
+    --purple: #6A1B9A;
+    --purple-light: #F3E5F5;
+    --gray-50: #F8FAFC;
+    --gray-100: #F1F5F9;
+    --gray-200: #E2E8F0;
+    --gray-400: #94A3B8;
+    --gray-600: #475569;
+    --gray-800: #1E293B;
+    --white: #FFFFFF;
+    --radius: 12px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-800);
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--navy);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .header-brand {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .header-logo {
+    width: 38px; height: 38px;
+    background: var(--white);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .header-logo svg { width: 22px; height: 22px; }
+  .header-title { color: white; font-size: 17px; font-weight: 600; letter-spacing: -0.3px; }
+  .header-sub { color: rgba(255,255,255,0.6); font-size: 12px; }
+  .header-badge {
+    background: rgba(255,255,255,0.15);
+    color: white; font-size: 12px; padding: 4px 12px;
+    border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .container { max-width: 760px; margin: 0 auto; padding: 2rem 1rem; }
+
+  /* Progress bar */
+  .progress-track {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 13px; color: var(--gray-600); margin-bottom: 8px;
+  }
+  .progress-bar-bg {
+    background: var(--gray-200); height: 6px; border-radius: 3px;
+  }
+  .progress-bar-fill {
+    height: 6px; border-radius: 3px;
+    background: var(--blue);
+    transition: width 0.5s ease;
+  }
+  .step-dots {
+    display: flex; gap: 6px; margin-top: 10px; justify-content: center;
+  }
+  .step-dot {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600;
+    border: 2px solid var(--gray-200);
+    color: var(--gray-400); background: white;
+    transition: all 0.3s;
+  }
+  .step-dot.done { background: var(--blue); border-color: var(--blue); color: white; }
+  .step-dot.active { border-color: var(--blue); color: var(--blue); }
+
+  /* Cards */
+  .card {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1rem;
+  }
+  .card-header {
+    display: flex; align-items: flex-start; gap: 14px;
+    margin-bottom: 1.5rem;
+  }
+  .step-badge {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px; flex-shrink: 0;
+  }
+  .step-badge.blue   { background: var(--blue-light); color: var(--blue); }
+  .step-badge.teal   { background: var(--teal-light); color: var(--teal); }
+  .step-badge.amber  { background: var(--amber-light); color: var(--amber); }
+  .step-badge.green  { background: var(--green-light); color: var(--green); }
+  .step-badge.purple { background: var(--purple-light); color: var(--purple); }
+
+  .card-title { font-family: 'Playfair Display', serif; font-size: 20px; line-height: 1.2; }
+  .card-subtitle { font-size: 14px; color: var(--gray-600); margin-top: 3px; }
+
+  /* Form elements */
+  .field-group { margin-bottom: 1.1rem; }
+  .field-label {
+    display: block; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.5px; text-transform: uppercase;
+    color: var(--gray-600); margin-bottom: 6px;
+  }
+  .field-input {
+    width: 100%; padding: 10px 14px;
+    border: 1.5px solid var(--gray-200); border-radius: 8px;
+    font-size: 14px; font-family: 'Inter', sans-serif;
+    color: var(--gray-800); background: var(--gray-50);
+    transition: border-color 0.2s, background 0.2s;
+    outline: none;
+  }
+  .field-input:focus { border-color: var(--blue); background: white; }
+
+  /* Buttons */
+  .btn {
+    padding: 11px 24px; border-radius: 8px;
+    font-size: 14px; font-weight: 600; font-family: 'Inter', sans-serif;
+    cursor: pointer; border: none; transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary {
+    background: var(--blue); color: white;
+  }
+  .btn-primary:hover { background: #0D47A1; transform: translateY(-1px); }
+  .btn-primary:disabled { background: var(--gray-400); cursor: not-allowed; transform: none; }
+  .btn-secondary {
+    background: white; color: var(--gray-600);
+    border: 1.5px solid var(--gray-200);
+  }
+  .btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
+  .btn-success { background: var(--green); color: white; }
+  .btn-success:hover { background: #1B5E20; }
+  .btn-full { width: 100%; justify-content: center; }
+
+  /* Alerts */
+  .alert {
+    padding: 12px 16px; border-radius: 8px;
+    font-size: 14px; display: flex; align-items: flex-start; gap: 10px;
+    margin-top: 12px;
+  }
+  .alert-error { background: var(--red-light); color: var(--red); border-left: 3px solid var(--red); }
+  .alert-success { background: var(--green-light); color: var(--green); border-left: 3px solid var(--green); }
+  .alert-info { background: var(--blue-light); color: var(--blue); border-left: 3px solid var(--blue); }
+  .alert-warning { background: var(--amber-light); color: var(--amber); border-left: 3px solid var(--amber); }
+
+  /* Upload area */
+  .upload-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-bottom: 1rem;
+  }
+  .upload-item {
+    border: 2px dashed var(--gray-200); border-radius: 10px;
+    padding: 14px; text-align: center; cursor: pointer;
+    transition: all 0.2s; position: relative;
+  }
+  .upload-item:hover { border-color: var(--blue); background: var(--blue-light); }
+  .upload-item.uploaded { border-style: solid; border-color: var(--green); background: var(--green-light); }
+  .upload-item.required-flag { border-color: var(--red); background: var(--red-light); }
+  .upload-item input[type=file] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer;
+  }
+  .upload-icon { font-size: 22px; margin-bottom: 6px; }
+  .upload-label { font-size: 13px; font-weight: 600; color: var(--gray-700); }
+  .upload-status { font-size: 12px; color: var(--gray-500); margin-top: 3px; }
+  .upload-item.uploaded .upload-status { color: var(--green); }
+  .upload-item.required-flag .upload-label { color: var(--red); }
+
+  /* AI processing */
+  .ai-panel {
+    background: linear-gradient(135deg, #0D47A1 0%, #1565C0 100%);
+    color: white; border-radius: var(--radius);
+    padding: 1.5rem; margin-bottom: 1rem;
+  }
+  .ai-panel h3 { font-size: 16px; margin-bottom: 8px; }
+  .ai-panel p { font-size: 14px; opacity: 0.85; }
+  .ai-spinner {
+    display: inline-block; width: 18px; height: 18px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top-color: white; border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin-left: 8px;
+    vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Form fields for applications */
+  .form-section-title {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.5px;
+    text-transform: uppercase; color: var(--gray-600);
+    margin: 1.2rem 0 0.8rem; padding-bottom: 6px;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* Signature pad */
+  .sig-pad-wrap { position: relative; }
+  .sig-pad {
+    width: 100%; height: 90px; border: 1.5px solid var(--gray-200);
+    border-radius: 8px; background: var(--gray-50); cursor: crosshair;
+    display: block;
+  }
+  .sig-clear {
+    position: absolute; top: 6px; right: 8px;
+    font-size: 11px; color: var(--blue); cursor: pointer;
+    text-decoration: underline;
+  }
+  .sig-hint {
+    font-size: 11px; color: var(--gray-400);
+    text-align: center; margin-top: 4px;
+  }
+
+  /* Checkbox */
+  .checkbox-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 12px; background: var(--gray-50); border-radius: 8px;
+    border: 1px solid var(--gray-200); margin-bottom: 10px;
+  }
+  .checkbox-row input[type=checkbox] { margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px; }
+  .checkbox-label { font-size: 13px; line-height: 1.5; }
+
+  /* Success screen */
+  .success-hero {
+    text-align: center; padding: 2rem 1rem;
+  }
+  .success-icon {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: var(--green-light); display: flex;
+    align-items: center; justify-content: center; margin: 0 auto 1.2rem;
+    font-size: 36px;
+  }
+  .success-hero h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; margin-bottom: 8px; color: var(--green);
+  }
+  .success-hero p { font-size: 15px; color: var(--gray-600); max-width: 420px; margin: 0 auto; }
+
+  .next-steps-list {
+    list-style: none; margin-top: 1.5rem; text-align: left;
+  }
+  .next-steps-list li {
+    padding: 10px 14px; background: var(--gray-50);
+    border-radius: 8px; margin-bottom: 8px;
+    font-size: 14px; display: flex; align-items: center; gap: 10px;
+    border: 1px solid var(--gray-200);
+  }
+  .ns-num {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--blue); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; flex-shrink: 0;
+  }
+
+  /* Hidden */
+  .page { display: none; }
+  .page.active { display: block; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-brand">
+    <div class="header-logo">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5h-2v-5h2v5zm0-7h-2V7h2v2.5z" fill="#1565C0"/>
+      </svg>
+    </div>
+    <div>
+      <div class="header-title">AdventHealth Polk</div>
+      <div class="header-sub">Volunteer Services</div>
+    </div>
+  </div>
+  <div class="header-badge">Onboarding Portal</div>
+</header>
+
+<div class="container">
+
+  <!-- Progress -->
+  <div class="progress-track" id="progressBar" style="display:none">
+    <div class="progress-label">
+      <span id="progressLabel">Step 1 of 7</span>
+      <span id="progressPct">14%</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progressFill" style="width:14%"></div>
+    </div>
+    <div class="step-dots">
+      <div class="step-dot active" id="dot1">1</div>
+      <div class="step-dot" id="dot2">2</div>
+      <div class="step-dot" id="dot3">3</div>
+      <div class="step-dot" id="dot4">4</div>
+      <div class="step-dot" id="dot5">5</div>
+      <div class="step-dot" id="dot6">6</div>
+      <div class="step-dot" id="dot7">7</div>
+    </div>
+  </div>
+
+  <!-- PAGE 0: Login -->
+  <div id="page0" class="page active">
+    <div class="card">
+      <div class="card-header">
+        <div class="step-badge blue">&#9829;</div>
+        <div>
+          <div class="card-title">Welcome, Volunteer Candidate</div>
+          <div class="card-subtitle">Sign in to continue your journey as a volunteer</div>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Full legal name</label>
+        <input id="loginName" class="field-input" placeholder="e.g. Maria Elena Lopez" autocomplete="off">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Email address</label>
+        <input id="loginEmail" class="field-input" type="email" placeholder="you@email.com">
+      </div>
+      <button class="btn btn-primary btn-full" onclick="doLogin()">Continue &rarr;</button>
+      <div id="loginErr"></div>
+    </div>
+  </div>
+
+  <!-- PAGE 1: Step 1 – Orientation Course -->
+  <div id="page1" class="page">
+    <div class="card">
+      <div class="card-header">
+        <div class="step-badge blue">1</div>
+        <div>
+          <div class="card-title">Complete the online volunteer orientation</div>
+          <div class="card-subtitle">Free course — no code required — must be completed first</div>
+        </div>
+      </div>
+
+      <div class="alert alert-info" style="margin-bottom:1rem;">&#9432; Follow the three steps below, then confirm completion before continuing.</div>
+
+      <div style="background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;padding:1.1rem 1.2rem;margin-bottom:1rem;">
+        <div style="font-size:13px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:0.75rem;">How to complete the course</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="min-width:24px;height:24px;border-radius:50%;background:var(--blue);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">1</div>
+            <div style="font-size:14px;line-height:1.6;">Click the button below to open the <strong>On-Line Volunteer Orientation &mdash; Polk County &mdash; Echelon</strong> course site.</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="min-width:24px;height:24px;border-radius:50%;background:var(--blue);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">2</div>
+            <div style="font-size:14px;line-height:1.6;">Click <strong>each tab</strong> and read its content carefully.</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="min-width:24px;height:24px;border-radius:50%;background:var(--blue);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">3</div>
+            <div style="font-size:14px;line-height:1.6;">Click <strong>Buy</strong> (no code required) and register to create your login. Upon completion, <strong>download your certificate of completion</strong> &mdash; you will upload it securely in Step 2.</div>
+          </div>
+        </div>
+      </div>
+
+      <a href="https://echelon.io/adventhealth-polk-volunteer-orientation" target="_blank" rel="noopener" style="display:block;text-decoration:none;margin-bottom:1rem;">
+        <button class="btn btn-secondary" style="width:100%;justify-content:center;">&#127760;&nbsp; Open Volunteer Orientation Course &mdash; Echelon</button>
+      </a>
+
+      <div class="alert alert-warning" style="margin-bottom:1rem;">
+        <div style="font-size:14px;line-height:1.7;">
+          <strong>Special notes:</strong><br>
+          &bull; Scheduling and commitment vary for <strong>Pet Therapy</strong> and <strong>Pastoral Care</strong> volunteers.<br>
+          &bull; <strong>NICU Cuddler</strong> volunteers must be at least <strong>21 years old</strong>.
+        </div>
+      </div>
+
+      <div class="checkbox-row">
+        <input type="checkbox" id="courseConfirm">
+        <label class="checkbox-label" for="courseConfirm">I confirm I have completed all tabs of the orientation course, registered my account, and downloaded my certificate of completion.</label>
+      </div>
+      <br>
+      <button class="btn btn-primary btn-full" onclick="confirmCourse()">Next: Complete Application &amp; Submit Documents &rarr;</button>
+      <div id="courseErr"></div>
+    </div>
+  </div>
+
+  <!-- PAGE 2: Step 2 – Application -->
+  <div id="page2" class="page">
+    <div class="card">
+      <div class="card-header">
+        <div class="step-badge blue">2</div>
+        <div>
+          <div class="card-title">Complete the official volunteer application</div>
+          <div class="card-subtitle">Submit your application through the iOTrak portal</div>
+        </div>
+      </div>
+
+      <div class="alert alert-info" style="margin-bottom:1rem;">
+        &#9432; Click the button below to open the official AdventHealth Polk volunteer application on iOTrak. Complete all required fields and submit. Then return here and confirm before continuing.
+      </div>
+
+      <div style="background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;padding:1.1rem 1.2rem;margin-bottom:1rem;">
+        <div style="font-size:13px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:0.75rem;">Official Volunteer Application &mdash; iOTrak</div>
+        <div style="font-size:14px;line-height:1.6;margin-bottom:0.85rem;">
+          Complete all required fields in the iOTrak portal and click <strong>Submit</strong>. Your information will be securely recorded in the AdventHealth Volunteer Services system.
+        </div>
+        <a href="https://adventhealth-volunteer-services.iotrak.io/pub/volunteers/applications/new" target="_blank" rel="noopener" style="text-decoration:none;display:block;">
+          <button class="btn btn-secondary" style="width:100%;justify-content:center;">&#128196;&nbsp; Open Official Volunteer Application (iOTrak)</button>
+        </a>
+      </div>
+
+      <div class="alert alert-success" style="margin-bottom:1rem;">
+        &#128274; Your documents will be uploaded <strong>securely in the next step</strong> through this portal. No documents should be sent by email &mdash; all files are stored in a compliant, access-controlled system.
+      </div>
+
+      <div class="checkbox-row">
+        <input type="checkbox" id="appConfirm">
+        <label class="checkbox-label" for="appConfirm">I confirm I have fully completed and submitted my official volunteer application on the iOTrak portal.</label>
+      </div>
+      <br>
+      <button class="btn btn-primary btn-full" onclick="confirmIO()">Next: Upload Documents Securely &rarr;</button>
+      <div id="ioErr"></div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: Step 3 – Upload Documents for AI Review -->
+  <div id="page3" class="page">
+    <div class="card">
+      <div class="card-header">
+        <div class="step-badge blue">3</div>
+        <div>
+          <div class="card-title">Upload documents for AI verification</div>
+          <div class="card-subtitle" id="docSubtitle">5 documents required — all must be uploaded to continue</div>
+        </div>
+      </div>
+
+      <div class="alert alert-info" style="margin-bottom:1rem;">&#128274; Upload your documents securely below. All files are stored in a compliant, access-controlled SharePoint library &mdash; no documents should be sent by email. The Volunteer Services team will be notified automatically upon submission.</div>
+
+      <div class="upload-grid" id="uploadGrid">
+        <div class="upload-item" id="upload-cert" onclick="triggerUpload('cert')">
+          <input type="file" id="file-cert" accept=".pdf,.jpg,.jpeg,.png" onchange="fileUploaded('cert',this)">
+          <div class="upload-icon">&#127891;</div>
+          <div class="upload-label">Orientation Certificate</div>
+          <div class="upload-status" id="status-cert">Click to upload</div>
+        </div>
+        <div class="upload-item" id="upload-ss" onclick="triggerUpload('ss')">
+          <input type="file" id="file-ss" accept=".pdf,.jpg,.jpeg,.png" onchange="fileUploaded('ss',this)">
+          <div class="upload-icon">&#128100;</div>
+          <div class="upload-label">Social Security Card</div>
+          <div class="upload-status" id="status-ss">Click to upload</div>
+        </div>
+        <div class="upload-item" id="upload-pid" onclick="triggerUpload('pid')">
+          <input type="file" id="file-pid" accept=".pdf,.jpg,.jpeg,.png" onchange="fileUploaded('pid',this)">
+          <div class="upload-icon">&#128663;</div>
+          <div class="upload-label">Photo ID</div>
+          <div class="upload-status" id="status-pid">Driver's License, State ID, or Passport</div>
+        </div>
+        <div class="upload-item" id="upload-covid" onclick="triggerUpload('covid')">
+          <input type="file" id="file-covid" accept=".pdf,.jpg,.jpeg,.png" onchange="fileUploaded('covid',this)">
+          <div class="upload-icon">&#128137;</div>
+          <div class="upload-label">COVID Vaccination Card</div>
+          <div class="upload-status" id="status-covid">Or exemption form</div>
+        </div>
+        <div class="upload-item" id="upload-imm" onclick="triggerUpload('imm')" style="grid-column:span 2">
+          <input type="file" id="file-imm" accept=".pdf,.jpg,.jpeg,.png" onchange="fileUploaded('imm',this)">
+          <div class="upload-icon">&#128203;</div>
+          <div class="upload-label">Immunization Records</div>
+          <div class="upload-status" id="status-imm">Click to upload</div>
+        </div>
+        <div class="upload-item" id="upload-bc" onclick="triggerUpload('bc')" style="grid-column:span 2;display:none;">
+          <input type="file" id="file-bc" accept=".pdf,.jpg,.jpeg,.png" onchange="fileUploaded('bc',this)">
+          <div class="upload-icon">&#127981;</div>
+          <div class="upload-label">Birth Certificate <span style="color:var(--purple);font-size:11px;font-weight:600;">(Under 18 only)</span></div>
+          <div class="upload-status" id="status-bc">Click to upload</div>
+        </div>
+      </div>
+
+      <div id="uploadCount" style="font-size:13px;color:var(--gray-600);text-align:center;margin-bottom:12px;">0 of 5 documents uploaded</div>
+      <button class="btn btn-primary btn-full" id="btnSubmitDocs" onclick="submitDocs()" disabled>Submit for AI Review &rarr;</button>
+      <div id="docErr"></div>
+    </div>
+  </div>
+
+  <!-- PAGE 4: AI Review -->
+  <div id="page4" class="page">
+    <div class="ai-panel" id="aiPanel">
+      <h3>&#129302; AI Document Review — Microsoft Copilot</h3>
+      <p id="aiStatus">Analyzing your documents... <span class="ai-spinner"></span></p>
+    </div>
+    <div class="card" id="aiResult" style="display:none">
+      <div class="card-header">
+        <div class="step-badge teal">AI</div>
+        <div>
+          <div class="card-title">Review complete</div>
+          <div class="card-subtitle" id="aiResultSub"></div>
+        </div>
+      </div>
+      <div id="aiResultBody"></div>
+      <br>
+      <button class="btn btn-primary btn-full" id="btnToForm" onclick="goToForm()">Open Application Form &rarr;</button>
+    </div>
+  </div>
+
+  <!-- PAGE 5A: Teenager Application -->
+  <div id="page5teen" class="page">
+    <div class="card">
+      <div class="card-header">
+        <div class="step-badge purple">5</div>
+        <div>
+          <div class="card-title">Teenager Application for Volunteer</div>
+          <div class="card-subtitle">Signature required from candidate AND parent/guardian</div>
+        </div>
+      </div>
+      <div class="alert alert-warning">&#9888; Because you are under 18, this application must be signed by both the volunteer candidate and a parent or legal guardian.</div>
+
+      <div class="form-section-title">Volunteer Candidate Information</div>
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">First name</label>
+          <input class="field-input" id="t_fname" placeholder="First name">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Last name</label>
+          <input class="field-input" id="t_lname" placeholder="Last name">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">Date of birth</label>
+          <input class="field-input" id="t_dob" type="date">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Phone number</label>
+          <input class="field-input" id="t_phone" placeholder="(555) 000-0000">
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Address</label>
+        <input class="field-input" id="t_address" placeholder="Street, City, State, ZIP">
+      </div>
+      <div class="field-group">
+        <label class="field-label">School / Grade</label>
+        <input class="field-input" id="t_school" placeholder="e.g. Polk High School — Grade 10">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Preferred department(s)</label>
+        <input class="field-input" id="t_dept" placeholder="e.g. Emergency, Lab, Imaging">
+      </div>
+
+      <div class="form-section-title">Parent / Guardian Information</div>
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">Parent/Guardian full name</label>
+          <input class="field-input" id="t_pgname" placeholder="Full name">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Relationship</label>
+          <input class="field-input" id="t_pgrel" placeholder="e.g. Mother, Guardian">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">Parent/Guardian phone</label>
+          <input class="field-input" id="t_pgphone" placeholder="(555) 000-0000">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Parent/Guardian email</label>
+          <input class="field-input" id="t_pgemail" placeholder="parent@email.com">
+        </div>
+      </div>
+
+      <div class="form-section-title">Candidate Signature</div>
+      <div class="sig-pad-wrap">
+        <canvas class="sig-pad" id="sigCandidate" width="700" height="90"></canvas>
+        <span class="sig-clear" onclick="clearSig('sigCandidate','sigCandidateSigned')">Clear</span>
+      </div>
+      <div class="sig-hint">Draw your signature above using mouse or touch</div>
+
+      <div class="form-section-title">Parent / Guardian Signature</div>
+      <div class="sig-pad-wrap">
+        <canvas class="sig-pad" id="sigParent" width="700" height="90"></canvas>
+        <span class="sig-clear" onclick="clearSig('sigParent','sigParentSigned')">Clear</span>
+      </div>
+      <div class="sig-hint">Parent or guardian: draw your signature above</div>
+      <input type="hidden" id="sigCandidateSigned" value="0">
+      <input type="hidden" id="sigParentSigned" value="0">
+
+      <div class="checkbox-row" style="margin-top:1rem">
+        <input type="checkbox" id="t_consent">
+        <label class="checkbox-label" for="t_consent">I/We confirm that all information provided is accurate and authorize AdventHealth Polk to conduct a review of this application. Parent/Guardian hereby grants permission for the above-named minor to serve as a volunteer.</label>
+      </div>
+
+      <br>
+      <button class="btn btn-success btn-full" onclick="submitTeenApp()">Submit Teenager Application &#10003;</button>
+      <div id="teenErr"></div>
+    </div>
+  </div>
+
+  <!-- PAGE 5B: Adult Application -->
+  <div id="page5adult" class="page">
+    <div class="card">
+      <div class="card-header">
+        <div class="step-badge teal">5</div>
+        <div>
+          <div class="card-title">Adult Application for Volunteer</div>
+          <div class="card-subtitle">Please complete all fields and authorize the background check</div>
+        </div>
+      </div>
+
+      <div class="form-section-title">Personal Information</div>
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">First name</label>
+          <input class="field-input" id="a_fname" placeholder="First name">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Last name</label>
+          <input class="field-input" id="a_lname" placeholder="Last name">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">Date of birth</label>
+          <input class="field-input" id="a_dob" type="date">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Phone number</label>
+          <input class="field-input" id="a_phone" placeholder="(555) 000-0000">
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Address</label>
+        <input class="field-input" id="a_address" placeholder="Street, City, State, ZIP">
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">Occupation</label>
+          <input class="field-input" id="a_occ" placeholder="e.g. Retired Nurse">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Preferred department(s)</label>
+          <input class="field-input" id="a_dept" placeholder="e.g. Emergency, Lab">
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Emergency contact name & phone</label>
+        <input class="field-input" id="a_ec" placeholder="e.g. John Smith — (555) 111-2222">
+      </div>
+
+      <div class="form-section-title">Authorization to Conduct Background Check</div>
+      <div class="alert alert-info">&#9432; AdventHealth Polk is required by policy to conduct a criminal background check on all adult volunteer candidates. This check is run through a third-party screening service.</div>
+      <br>
+      <div class="checkbox-row">
+        <input type="checkbox" id="a_bg1">
+        <label class="checkbox-label" for="a_bg1">I authorize AdventHealth Polk and its authorized agents to obtain a background check report including criminal history, sex offender registry, and identity verification.</label>
+      </div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="a_bg2">
+        <label class="checkbox-label" for="a_bg2">I understand that this information will be kept confidential and used solely for the purpose of evaluating my volunteer application.</label>
+      </div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="a_bg3">
+        <label class="checkbox-label" for="a_bg3">I certify that all information I have provided is true and complete to the best of my knowledge.</label>
+      </div>
+
+      <div class="form-section-title">Applicant Signature</div>
+      <div class="sig-pad-wrap">
+        <canvas class="sig-pad" id="sigAdult" width="700" height="90"></canvas>
+        <span class="sig-clear" onclick="clearSig('sigAdult','sigAdultSigned')">Clear</span>
+      </div>
+      <div class="sig-hint">Draw your signature above using mouse or touch</div>
+      <input type="hidden" id="sigAdultSigned" value="0">
+
+      <br>
+      <button class="btn btn-success btn-full" onclick="submitAdultApp()">Submit Adult Application &#10003;</button>
+      <div id="adultErr"></div>
+    </div>
+  </div>
+
+  <!-- PAGE 6: Complete -->
+  <div id="page6" class="page">
+    <div class="card">
+      <div class="success-hero">
+        <div class="success-icon">&#10003;</div>
+        <h2>Application Submitted!</h2>
+        <p>Thank you, <strong id="completeName"></strong>. Your application has been received and is under review by the AdventHealth Polk Volunteer Services team.</p>
+      </div>
+      <div class="alert alert-success" style="margin-bottom:1.5rem;">&#128274; Your documents are securely stored in SharePoint — no sensitive files were transmitted by email. The team at <strong>WFDvolunteerspolkmarket@adventhealth.com</strong> has been automatically notified.</div>
+
+      <div style="font-size:12px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;color:var(--gray-600);margin-bottom:0.9rem;">Your full journey to becoming a volunteer</div>
+
+      <div style="display:flex;flex-direction:column;gap:0;">
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;">
+            <div style="width:30px;height:30px;border-radius:50%;background:#1565C0;color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">1</div>
+            <div style="width:2px;flex:1;background:var(--gray-200);margin:3px 0;"></div>
+          </div>
+          <div style="padding:0 0 16px 12px;">
+            <div style="font-size:14px;font-weight:600;">Application review</div>
+            <div style="font-size:13px;color:var(--gray-600);line-height:1.5;">Coordinator reviews your documents, forms, and background check results (adults: 3–5 business days).</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;">
+            <div style="width:30px;height:30px;border-radius:50%;background:#1A237E;color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">2</div>
+            <div style="width:2px;flex:1;background:var(--gray-200);margin:3px 0;"></div>
+          </div>
+          <div style="padding:0 0 16px 12px;">
+            <div style="font-size:14px;font-weight:600;">Health screening form sent to you</div>
+            <div style="font-size:13px;color:var(--gray-600);line-height:1.5;">If approved, the system generates a PDF with your name, campus, cost center, and two requested free health screening exams. You will receive this by email.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;">
+            <div style="width:30px;height:30px;border-radius:50%;background:#1A237E;color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">3</div>
+            <div style="width:2px;flex:1;background:var(--gray-200);margin:3px 0;"></div>
+          </div>
+          <div style="padding:0 0 16px 12px;">
+            <div style="font-size:14px;font-weight:600;">Clinic visit for free health screening</div>
+            <div style="font-size:13px;color:var(--gray-600);line-height:1.5;">Bring your generated PDF to the clinic. The clinic conducts the two requested exams at no cost to you.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;">
+            <div style="width:30px;height:30px;border-radius:50%;background:#1A237E;color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">4</div>
+            <div style="width:2px;flex:1;background:var(--gray-200);margin:3px 0;"></div>
+          </div>
+          <div style="padding:0 0 16px 12px;">
+            <div style="font-size:14px;font-weight:600;">Microsoft Teams interview scheduled</div>
+            <div style="font-size:13px;color:var(--gray-600);line-height:1.5;">Once your screening results are received, a Teams meeting invitation is automatically generated for your interview with a volunteer coordinator.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;">
+            <div style="width:30px;height:30px;border-radius:50%;background:#BF360C;color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">5</div>
+            <div style="width:2px;flex:1;background:var(--gray-200);margin:3px 0;"></div>
+          </div>
+          <div style="padding:0 0 16px 12px;">
+            <div style="font-size:14px;font-weight:600;">NES submission &amp; OPID assigned</div>
+            <div style="font-size:13px;color:var(--gray-600);line-height:1.5;">After the interview, your data is submitted to the Non-Employee System (NES) and an OPID — your unique non-employee identifier — is requested and assigned.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;">
+            <div style="width:30px;height:30px;border-radius:50%;background:#BF360C;color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">6</div>
+            <div style="width:2px;flex:1;background:var(--gray-200);margin:3px 0;"></div>
+          </div>
+          <div style="padding:0 0 16px 12px;">
+            <div style="font-size:14px;font-weight:600;">Visit HR office — photo &amp; volunteer badge</div>
+            <div style="font-size:13px;color:var(--gray-600);line-height:1.5;">With your OPID in hand, you will be invited to the HR office to have your photo taken and receive your official AdventHealth Polk volunteer badge.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;">
+            <div style="width:30px;height:30px;border-radius:50%;background:#BF360C;color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">7</div>
+            <div style="width:2px;flex:1;background:var(--gray-200);margin:3px 0;"></div>
+          </div>
+          <div style="padding:0 0 16px 12px;">
+            <div style="font-size:14px;font-weight:600;">Volunteer record created in UKG &amp; Workday</div>
+            <div style="font-size:13px;color:var(--gray-600);line-height:1.5;">Your official volunteer profile is created in both UKG and Workday — AdventHealth's HR systems of record.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;">
+            <div style="width:30px;height:30px;border-radius:50%;background:#2E7D32;color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">8</div>
+            <div style="width:2px;flex:1;background:var(--gray-200);margin:3px 0;"></div>
+          </div>
+          <div style="padding:0 0 16px 12px;">
+            <div style="font-size:14px;font-weight:600;">In-person orientation &amp; department placement</div>
+            <div style="font-size:13px;color:var(--gray-600);line-height:1.5;">You are scheduled for in-person orientation and notified of your department placement and shift details.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:flex-start;">
+          <div style="display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;">
+            <div style="width:30px;height:30px;border-radius:50%;background:#2E7D32;color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">9</div>
+          </div>
+          <div style="padding:0 0 4px 12px;">
+            <div style="font-size:14px;font-weight:600;">Ongoing shift management &amp; volunteer maintenance</div>
+            <div style="font-size:13px;color:var(--gray-600);line-height:1.5;">Your shifts are managed through the volunteer portal. Welcome to the AdventHealth Polk Volunteer team!</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="margin-top:1.2rem;padding:12px 16px;background:var(--gray-50);border-radius:8px;border:1px solid var(--gray-200);font-size:13px;color:var(--gray-600);">
+        For questions at any point after this submission, contact <a href="mailto:Jesse.Birth@AdventHealth.com" style="color:var(--blue);font-weight:600;">Jesse.Birth@AdventHealth.com</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── State ─────────────────────────────────────────────────────────────────────
+let state = {
+  name: '', email: '',
+  step: 0,
+  uploads: { cert: false, ss: false, pid: false, covid: false, imm: false, bc: false },
+  isAdult: null,
+  requireBirthCert: false
+};
+
+const STEPS = 7;
+function setStep(n) {
+  state.step = n;
+  const pct = Math.round((n / STEPS) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = 'Step ' + n + ' of ' + STEPS;
+  document.getElementById('progressPct').textContent = pct + '%';
+  for (let i = 1; i <= 7; i++) {
+    const d = document.getElementById('dot' + i);
+    d.className = 'step-dot' + (i < n ? ' done' : i === n ? ' active' : '');
+  }
+}
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function showAlert(elId, msg, type) {
+  const el = document.getElementById(elId);
+  el.innerHTML = '<div class="alert alert-' + type + '">' + msg + '</div>';
+}
+
+// ── Login ─────────────────────────────────────────────────────────────────────
+function doLogin() {
+  const name = document.getElementById('loginName').value.trim();
+  const email = document.getElementById('loginEmail').value.trim();
+  if (!name) return showAlert('loginErr', '&#9888; Please enter your full legal name.', 'error');
+  if (!email || !email.includes('@')) return showAlert('loginErr', '&#9888; Please enter a valid email address.', 'error');
+  state.name = name; state.email = email;
+  document.getElementById('progressBar').style.display = 'block';
+  setStep(1); showPage('page1');
+}
+
+// ── Course ────────────────────────────────────────────────────────────────────
+function openCourse() {
+  // Real URL is in the <a> tag — this function is a no-op fallback
+}
+function confirmCourse() {
+  if (!document.getElementById('courseConfirm').checked)
+    return showAlert('courseErr', '&#9888; Please confirm you have completed the orientation course and downloaded your certificate.', 'error');
+  setStep(2); showPage('page2');
+}
+
+// ── Application & Documents (Step 2) ──────────────────────────────────────────
+function confirmIO() {
+  if (!document.getElementById('appConfirm').checked)
+    return showAlert('ioErr', '&#9888; Please confirm you have submitted the iOTrak application and emailed all required documents.', 'error');
+  setStep(3); showPage('page3');
+}
+
+// ── Documents upload ───────────────────────────────────────────────────────────
+// Core 5 docs (always required). Birth cert (bc) is added when applicant is a minor.
+const CORE_DOCS = ['cert','ss','pid','covid','imm'];
+
+function triggerUpload(doc) {
+  document.getElementById('file-' + doc).click();
+}
+function fileUploaded(doc, input) {
+  if (!input.files.length) return;
+  state.uploads[doc] = true;
+  const item = document.getElementById('upload-' + doc);
+  item.classList.add('uploaded');
+  item.classList.remove('required-flag');
+  document.getElementById('status-' + doc).textContent = '\u2713 ' + input.files[0].name;
+  updateDocCount();
+}
+function requiredDocs() {
+  return state.requireBirthCert ? [...CORE_DOCS, 'bc'] : CORE_DOCS;
+}
+function updateDocCount() {
+  const req = requiredDocs();
+  const done = req.filter(k => state.uploads[k]).length;
+  const total = req.length;
+  document.getElementById('uploadCount').textContent = done + ' of ' + total + ' documents uploaded';
+  const btn = document.getElementById('btnSubmitDocs');
+  btn.disabled = done < total;
+  btn.textContent = done < total ? 'Submit for AI Review \u2192' : '\u2713 All uploaded \u2014 Submit for AI Review \u2192';
+}
+function submitDocs() {
+  const req = requiredDocs();
+  const missing = req.filter(k => !state.uploads[k]).map(k => ({
+    cert:'Orientation Certificate', ss:'Social Security Card', pid:'Photo ID',
+    covid:'COVID Vaccination Card', imm:'Immunization Records', bc:'Birth Certificate'
+  }[k]));
+  if (missing.length) {
+    req.forEach(k => { if (!state.uploads[k]) document.getElementById('upload-'+k).classList.add('required-flag'); });
+    return showAlert('docErr', '&#9888; Missing: ' + missing.join(', ') + '. All required documents must be uploaded.', 'error');
+  }
+  setStep(4); showPage('page4'); runAIReview();
+}
+
+// ── AI Review Simulation ───────────────────────────────────────────────────────
+function runAIReview() {
+  const messages = [
+    'Uploading documents to SharePoint...',
+    'Invoking Microsoft Copilot AI Builder...',
+    'Extracting identity fields from birth certificate...',
+    'Cross-referencing with passport data...',
+    'Calculating age as of today\'s date...',
+    'Review complete.'
+  ];
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i < messages.length - 1) {
+      document.getElementById('aiStatus').innerHTML = messages[i] + ' <span class="ai-spinner"></span>';
+      i++;
+    } else {
+      clearInterval(interval);
+      document.getElementById('aiStatus').textContent = messages[i];
+      setTimeout(showAIResult, 600);
+    }
+  }, 900);
+}
+function showAIResult() {
+  const demoAge = Math.random() > 0.5 ? 22 : 16;
+  state.isAdult = demoAge >= 18;
+  state.requireBirthCert = !state.isAdult;
+
+  // If minor, reveal the birth certificate upload tile and update the subtitle
+  if (!state.isAdult) {
+    const bcTile = document.getElementById('upload-bc');
+    if (bcTile) bcTile.style.display = '';
+    const sub = document.getElementById('docSubtitle');
+    if (sub) sub.textContent = '6 documents required (includes Birth Certificate for applicants under 18)';
+    updateDocCount();
+  }
+
+  const resultEl = document.getElementById('aiResult');
+  document.getElementById('aiResultSub').textContent = state.isAdult
+    ? 'Applicant is ' + demoAge + ' years old — Adult application required'
+    : 'Applicant is ' + demoAge + ' years old — Teenager application required';
+  document.getElementById('aiResultBody').innerHTML = state.isAdult
+    ? '<div class="alert alert-success">&#10003; Identity documents verified. Applicant is 18 or older on the date of this application. An Adult Volunteer Application and background check authorization will now be provided.</div>'
+    : '<div class="alert alert-warning">&#9888; Identity documents verified. Applicant is under 18 on the date of this application. A Teenager Application for Volunteer must be signed by both the candidate and a parent or legal guardian.<br><br>If you have not yet uploaded your <strong>Birth Certificate</strong>, please go back and upload it before proceeding.</div>';
+  document.getElementById('btnToForm').textContent = state.isAdult
+    ? '\u2192 Open Adult Application & Background Check Authorization'
+    : '\u2192 Open Teenager Application (Parental Signature Required)';
+  resultEl.style.display = 'block';
+  setStep(5);
+}
+function goToForm() {
+  const pg = state.isAdult ? 'page5adult' : 'page5teen';
+  showPage(pg);
+  requestAnimationFrame(() => {
+    if (state.isAdult) {
+      initSig('sigAdult', 'sigAdultSigned');
+    } else {
+      initSig('sigCandidate', 'sigCandidateSigned');
+      initSig('sigParent',    'sigParentSigned');
+    }
+  });
+}
+
+// ── Signatures ────────────────────────────────────────────────────────────────
+const _sigInited = new Set();
+
+function initSig(canvasId, signedId) {
+  if (_sigInited.has(canvasId)) return;
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+
+  // Size the canvas to match its CSS-rendered width so coordinates are correct
+  const rect = canvas.getBoundingClientRect();
+  if (rect.width > 0) {
+    canvas.width  = rect.width;
+    canvas.height = rect.height || 90;
+  }
+
+  const ctx = canvas.getContext('2d');
+  let drawing = false;
+  ctx.strokeStyle = '#1565C0'; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+
+  function getPos(e) {
+    const r = canvas.getBoundingClientRect();
+    const src = e.touches ? e.touches[0] : e;
+    return [(src.clientX - r.left) * (canvas.width / r.width),
+            (src.clientY - r.top)  * (canvas.height / r.height)];
+  }
+
+  canvas.addEventListener('mousedown',  e => { drawing = true; ctx.beginPath(); ctx.moveTo(...getPos(e)); });
+  canvas.addEventListener('mousemove',  e => { if (!drawing) return; ctx.lineTo(...getPos(e)); ctx.stroke(); });
+  canvas.addEventListener('mouseup',    () => { drawing = false; document.getElementById(signedId).value = '1'; });
+  canvas.addEventListener('mouseleave', () => { drawing = false; });
+  canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing = true; ctx.beginPath(); ctx.moveTo(...getPos(e)); }, {passive:false});
+  canvas.addEventListener('touchmove',  e => { e.preventDefault(); if (!drawing) return; ctx.lineTo(...getPos(e)); ctx.stroke(); }, {passive:false});
+  canvas.addEventListener('touchend',   () => { drawing = false; document.getElementById(signedId).value = '1'; });
+
+  _sigInited.add(canvasId);
+}
+
+function pos(e, canvas) {
+  const r = canvas.getBoundingClientRect();
+  return [(e.clientX - r.left) * (canvas.width / r.width), (e.clientY - r.top) * (canvas.height / r.height)];
+}
+
+function clearSig(canvasId, signedId) {
+  const c = document.getElementById(canvasId);
+  c.getContext('2d').clearRect(0, 0, c.width, c.height);
+  document.getElementById(signedId).value = '0';
+}
+
+// ── Teen Form ─────────────────────────────────────────────────────────────────
+function submitTeenApp() {
+  const req = ['t_fname','t_lname','t_dob','t_phone','t_address','t_school','t_pgname','t_pgrel','t_pgphone'];
+  for (const id of req) {
+    if (!document.getElementById(id).value.trim())
+      return showAlert('teenErr', '&#9888; Please complete all required fields.', 'error');
+  }
+  if (!document.getElementById('t_consent').checked)
+    return showAlert('teenErr', '&#9888; Both the candidate and parent/guardian must consent.', 'error');
+  if (document.getElementById('sigCandidateSigned').value !== '1')
+    return showAlert('teenErr', '&#9888; Candidate signature is required.', 'error');
+  if (document.getElementById('sigParentSigned').value !== '1')
+    return showAlert('teenErr', '&#9888; Parent/Guardian signature is required.', 'error');
+  completeApp();
+}
+
+// ── Adult Form ────────────────────────────────────────────────────────────────
+function submitAdultApp() {
+  const req = ['a_fname','a_lname','a_dob','a_phone','a_address'];
+  for (const id of req) {
+    if (!document.getElementById(id).value.trim())
+      return showAlert('adultErr', '&#9888; Please complete all required fields.', 'error');
+  }
+  if (!document.getElementById('a_bg1').checked || !document.getElementById('a_bg2').checked || !document.getElementById('a_bg3').checked)
+    return showAlert('adultErr', '&#9888; You must authorize the background check and certify your information.', 'error');
+  if (document.g

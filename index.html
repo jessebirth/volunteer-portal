@@ -6,290 +6,92 @@
 <title>AdventHealth Polk — Volunteer Onboarding Portal</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap');
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --navy: #0B3D6E;
-    --blue: #1565C0;
-    --blue-light: #E3F2FD;
-    --teal: #00695C;
-    --teal-light: #E0F2F1;
-    --amber: #E65100;
-    --amber-light: #FFF8E1;
-    --red: #C62828;
-    --red-light: #FFEBEE;
-    --green: #2E7D32;
-    --green-light: #E8F5E9;
-    --purple: #6A1B9A;
-    --purple-light: #F3E5F5;
-    --gray-50: #F8FAFC;
-    --gray-100: #F1F5F9;
-    --gray-200: #E2E8F0;
-    --gray-400: #94A3B8;
-    --gray-600: #475569;
-    --gray-800: #1E293B;
-    --white: #FFFFFF;
-    --radius: 12px;
+    --navy: #0B3D6E; --blue: #1565C0; --blue-light: #E3F2FD;
+    --teal: #00695C; --teal-light: #E0F2F1;
+    --amber: #E65100; --amber-light: #FFF8E1;
+    --red: #C62828; --red-light: #FFEBEE;
+    --green: #2E7D32; --green-light: #E8F5E9;
+    --purple: #6A1B9A; --purple-light: #F3E5F5;
+    --gray-50: #F8FAFC; --gray-100: #F1F5F9; --gray-200: #E2E8F0;
+    --gray-400: #94A3B8; --gray-600: #475569; --gray-800: #1E293B;
+    --white: #FFFFFF; --radius: 12px;
     --shadow: 0 2px 12px rgba(0,0,0,0.08);
-    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
   }
-
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--gray-50);
-    color: var(--gray-800);
-    min-height: 100vh;
-  }
-
-  header {
-    background: var(--navy);
-    padding: 0 2rem;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky; top: 0; z-index: 100;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  }
-  .header-brand {
-    display: flex; align-items: center; gap: 12px;
-  }
-  .header-logo {
-    width: 38px; height: 38px;
-    background: var(--white);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-  }
+  body { font-family: 'Inter', sans-serif; background: var(--gray-50); color: var(--gray-800); min-height: 100vh; }
+  header { background: var(--navy); padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+  .header-brand { display: flex; align-items: center; gap: 12px; }
+  .header-logo { width: 38px; height: 38px; background: var(--white); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
   .header-logo svg { width: 22px; height: 22px; }
   .header-title { color: white; font-size: 17px; font-weight: 600; letter-spacing: -0.3px; }
   .header-sub { color: rgba(255,255,255,0.6); font-size: 12px; }
-  .header-badge {
-    background: rgba(255,255,255,0.15);
-    color: white; font-size: 12px; padding: 4px 12px;
-    border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);
-  }
-
+  .header-badge { background: rgba(255,255,255,0.15); color: white; font-size: 12px; padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); }
   .container { max-width: 760px; margin: 0 auto; padding: 2rem 1rem; }
-
-  /* Progress bar */
-  .progress-track {
-    background: white;
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius);
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: var(--shadow);
-  }
-  .progress-label {
-    display: flex; justify-content: space-between;
-    font-size: 13px; color: var(--gray-600); margin-bottom: 8px;
-  }
-  .progress-bar-bg {
-    background: var(--gray-200); height: 6px; border-radius: 3px;
-  }
-  .progress-bar-fill {
-    height: 6px; border-radius: 3px;
-    background: var(--blue);
-    transition: width 0.5s ease;
-  }
-  .step-dots {
-    display: flex; gap: 6px; margin-top: 10px; justify-content: center;
-  }
-  .step-dot {
-    width: 28px; height: 28px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 600;
-    border: 2px solid var(--gray-200);
-    color: var(--gray-400); background: white;
-    transition: all 0.3s;
-  }
+  .progress-track { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
+  .progress-label { display: flex; justify-content: space-between; font-size: 13px; color: var(--gray-600); margin-bottom: 8px; }
+  .progress-bar-bg { background: var(--gray-200); height: 6px; border-radius: 3px; }
+  .progress-bar-fill { height: 6px; border-radius: 3px; background: var(--blue); transition: width 0.5s ease; }
+  .step-dots { display: flex; gap: 6px; margin-top: 10px; justify-content: center; }
+  .step-dot { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; border: 2px solid var(--gray-200); color: var(--gray-400); background: white; transition: all 0.3s; }
   .step-dot.done { background: var(--blue); border-color: var(--blue); color: white; }
   .step-dot.active { border-color: var(--blue); color: var(--blue); }
-
-  /* Cards */
-  .card {
-    background: white;
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius);
-    padding: 2rem;
-    box-shadow: var(--shadow);
-    margin-bottom: 1rem;
-  }
-  .card-header {
-    display: flex; align-items: flex-start; gap: 14px;
-    margin-bottom: 1.5rem;
-  }
-  .step-badge {
-    width: 40px; height: 40px; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 16px; flex-shrink: 0;
-  }
+  .card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow); margin-bottom: 1rem; }
+  .card-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 1.5rem; }
+  .step-badge { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; flex-shrink: 0; }
   .step-badge.blue   { background: var(--blue-light); color: var(--blue); }
   .step-badge.teal   { background: var(--teal-light); color: var(--teal); }
-  .step-badge.amber  { background: var(--amber-light); color: var(--amber); }
   .step-badge.green  { background: var(--green-light); color: var(--green); }
   .step-badge.purple { background: var(--purple-light); color: var(--purple); }
-
   .card-title { font-family: 'Playfair Display', serif; font-size: 20px; line-height: 1.2; }
   .card-subtitle { font-size: 14px; color: var(--gray-600); margin-top: 3px; }
-
-  /* Form elements */
   .field-group { margin-bottom: 1.1rem; }
-  .field-label {
-    display: block; font-size: 12px; font-weight: 600;
-    letter-spacing: 0.5px; text-transform: uppercase;
-    color: var(--gray-600); margin-bottom: 6px;
-  }
-  .field-input {
-    width: 100%; padding: 10px 14px;
-    border: 1.5px solid var(--gray-200); border-radius: 8px;
-    font-size: 14px; font-family: 'Inter', sans-serif;
-    color: var(--gray-800); background: var(--gray-50);
-    transition: border-color 0.2s, background 0.2s;
-    outline: none;
-  }
+  .field-label { display: block; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--gray-600); margin-bottom: 6px; }
+  .field-input { width: 100%; padding: 10px 14px; border: 1.5px solid var(--gray-200); border-radius: 8px; font-size: 14px; font-family: 'Inter', sans-serif; color: var(--gray-800); background: var(--gray-50); transition: border-color 0.2s, background 0.2s; outline: none; }
   .field-input:focus { border-color: var(--blue); background: white; }
-
-  /* Buttons */
-  .btn {
-    padding: 11px 24px; border-radius: 8px;
-    font-size: 14px; font-weight: 600; font-family: 'Inter', sans-serif;
-    cursor: pointer; border: none; transition: all 0.2s;
-    display: inline-flex; align-items: center; gap: 8px;
-  }
-  .btn-primary {
-    background: var(--blue); color: white;
-  }
+  .btn { padding: 11px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer; border: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-primary { background: var(--blue); color: white; }
   .btn-primary:hover { background: #0D47A1; transform: translateY(-1px); }
   .btn-primary:disabled { background: var(--gray-400); cursor: not-allowed; transform: none; }
-  .btn-secondary {
-    background: white; color: var(--gray-600);
-    border: 1.5px solid var(--gray-200);
-  }
+  .btn-secondary { background: white; color: var(--gray-600); border: 1.5px solid var(--gray-200); }
   .btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
   .btn-success { background: var(--green); color: white; }
   .btn-success:hover { background: #1B5E20; }
   .btn-full { width: 100%; justify-content: center; }
-
-  /* Alerts */
-  .alert {
-    padding: 12px 16px; border-radius: 8px;
-    font-size: 14px; display: flex; align-items: flex-start; gap: 10px;
-    margin-top: 12px;
-  }
-  .alert-error { background: var(--red-light); color: var(--red); border-left: 3px solid var(--red); }
+  .alert { padding: 12px 16px; border-radius: 8px; font-size: 14px; display: flex; align-items: flex-start; gap: 10px; margin-top: 12px; }
+  .alert-error   { background: var(--red-light);   color: var(--red);   border-left: 3px solid var(--red); }
   .alert-success { background: var(--green-light); color: var(--green); border-left: 3px solid var(--green); }
-  .alert-info { background: var(--blue-light); color: var(--blue); border-left: 3px solid var(--blue); }
+  .alert-info    { background: var(--blue-light);  color: var(--blue);  border-left: 3px solid var(--blue); }
   .alert-warning { background: var(--amber-light); color: var(--amber); border-left: 3px solid var(--amber); }
-
-  /* Upload area */
-  .upload-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-    margin-bottom: 1rem;
-  }
-  .upload-item {
-    border: 2px dashed var(--gray-200); border-radius: 10px;
-    padding: 14px; text-align: center; cursor: pointer;
-    transition: all 0.2s; position: relative;
-  }
+  .upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
+  .upload-item { border: 2px dashed var(--gray-200); border-radius: 10px; padding: 14px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; }
   .upload-item:hover { border-color: var(--blue); background: var(--blue-light); }
   .upload-item.uploaded { border-style: solid; border-color: var(--green); background: var(--green-light); }
   .upload-item.required-flag { border-color: var(--red); background: var(--red-light); }
-  .upload-item input[type=file] {
-    position: absolute; inset: 0; opacity: 0; cursor: pointer;
-  }
+  .upload-item input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
   .upload-icon { font-size: 22px; margin-bottom: 6px; }
   .upload-label { font-size: 13px; font-weight: 600; color: var(--gray-700); }
   .upload-status { font-size: 12px; color: var(--gray-500); margin-top: 3px; }
   .upload-item.uploaded .upload-status { color: var(--green); }
   .upload-item.required-flag .upload-label { color: var(--red); }
-
-  /* AI processing */
-  .ai-panel {
-    background: linear-gradient(135deg, #0D47A1 0%, #1565C0 100%);
-    color: white; border-radius: var(--radius);
-    padding: 1.5rem; margin-bottom: 1rem;
-  }
+  .ai-panel { background: linear-gradient(135deg, #0D47A1 0%, #1565C0 100%); color: white; border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1rem; }
   .ai-panel h3 { font-size: 16px; margin-bottom: 8px; }
   .ai-panel p { font-size: 14px; opacity: 0.85; }
-  .ai-spinner {
-    display: inline-block; width: 18px; height: 18px;
-    border: 3px solid rgba(255,255,255,0.3);
-    border-top-color: white; border-radius: 50%;
-    animation: spin 0.8s linear infinite; margin-left: 8px;
-    vertical-align: middle;
-  }
+  .ai-spinner { display: inline-block; width: 18px; height: 18px; border: 3px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; margin-left: 8px; vertical-align: middle; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* Form fields for applications */
-  .form-section-title {
-    font-size: 13px; font-weight: 700; letter-spacing: 0.5px;
-    text-transform: uppercase; color: var(--gray-600);
-    margin: 1.2rem 0 0.8rem; padding-bottom: 6px;
-    border-bottom: 1px solid var(--gray-200);
-  }
+  .form-section-title { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--gray-600); margin: 1.2rem 0 0.8rem; padding-bottom: 6px; border-bottom: 1px solid var(--gray-200); }
   .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-  /* Signature pad */
   .sig-pad-wrap { position: relative; }
-  .sig-pad {
-    width: 100%; height: 90px; border: 1.5px solid var(--gray-200);
-    border-radius: 8px; background: var(--gray-50); cursor: crosshair;
-    display: block;
-  }
-  .sig-clear {
-    position: absolute; top: 6px; right: 8px;
-    font-size: 11px; color: var(--blue); cursor: pointer;
-    text-decoration: underline;
-  }
-  .sig-hint {
-    font-size: 11px; color: var(--gray-400);
-    text-align: center; margin-top: 4px;
-  }
-
-  /* Checkbox */
-  .checkbox-row {
-    display: flex; align-items: flex-start; gap: 10px;
-    padding: 12px; background: var(--gray-50); border-radius: 8px;
-    border: 1px solid var(--gray-200); margin-bottom: 10px;
-  }
+  .sig-pad { width: 100%; height: 90px; border: 1.5px solid var(--gray-200); border-radius: 8px; background: var(--gray-50); cursor: crosshair; display: block; }
+  .sig-clear { position: absolute; top: 6px; right: 8px; font-size: 11px; color: var(--blue); cursor: pointer; text-decoration: underline; }
+  .sig-hint { font-size: 11px; color: var(--gray-400); text-align: center; margin-top: 4px; }
+  .checkbox-row { display: flex; align-items: flex-start; gap: 10px; padding: 12px; background: var(--gray-50); border-radius: 8px; border: 1px solid var(--gray-200); margin-bottom: 10px; }
   .checkbox-row input[type=checkbox] { margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px; }
   .checkbox-label { font-size: 13px; line-height: 1.5; }
-
-  /* Success screen */
-  .success-hero {
-    text-align: center; padding: 2rem 1rem;
-  }
-  .success-icon {
-    width: 72px; height: 72px; border-radius: 50%;
-    background: var(--green-light); display: flex;
-    align-items: center; justify-content: center; margin: 0 auto 1.2rem;
-    font-size: 36px;
-  }
-  .success-hero h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 26px; margin-bottom: 8px; color: var(--green);
-  }
+  .success-hero { text-align: center; padding: 2rem 1rem; }
+  .success-icon { width: 72px; height: 72px; border-radius: 50%; background: var(--green-light); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.2rem; font-size: 36px; }
+  .success-hero h2 { font-family: 'Playfair Display', serif; font-size: 26px; margin-bottom: 8px; color: var(--green); }
   .success-hero p { font-size: 15px; color: var(--gray-600); max-width: 420px; margin: 0 auto; }
-
-  .next-steps-list {
-    list-style: none; margin-top: 1.5rem; text-align: left;
-  }
-  .next-steps-list li {
-    padding: 10px 14px; background: var(--gray-50);
-    border-radius: 8px; margin-bottom: 8px;
-    font-size: 14px; display: flex; align-items: center; gap: 10px;
-    border: 1px solid var(--gray-200);
-  }
-  .ns-num {
-    width: 24px; height: 24px; border-radius: 50%;
-    background: var(--blue); color: white;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 700; flex-shrink: 0;
-  }
-
-  /* Hidden */
   .page { display: none; }
   .page.active { display: block; }
 </style>
@@ -313,7 +115,6 @@
 
 <div class="container">
 
-  <!-- Progress -->
   <div class="progress-track" id="progressBar" style="display:none">
     <div class="progress-label">
       <span id="progressLabel">Step 1 of 7</span>
@@ -356,7 +157,7 @@
     </div>
   </div>
 
-  <!-- PAGE 1: Step 1 – Orientation Course -->
+  <!-- PAGE 1: Orientation Course -->
   <div id="page1" class="page">
     <div class="card">
       <div class="card-header">
@@ -366,9 +167,7 @@
           <div class="card-subtitle">Free course — no code required — must be completed first</div>
         </div>
       </div>
-
       <div class="alert alert-info" style="margin-bottom:1rem;">&#9432; Follow the three steps below, then confirm completion before continuing.</div>
-
       <div style="background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;padding:1.1rem 1.2rem;margin-bottom:1rem;">
         <div style="font-size:13px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:0.75rem;">How to complete the course</div>
         <div style="display:flex;flex-direction:column;gap:12px;">
@@ -386,11 +185,9 @@
           </div>
         </div>
       </div>
-
       <a href="https://echelon.io/adventhealth-polk-volunteer-orientation" target="_blank" rel="noopener" style="display:block;text-decoration:none;margin-bottom:1rem;">
         <button class="btn btn-secondary" style="width:100%;justify-content:center;">&#127760;&nbsp; Open Volunteer Orientation Course &mdash; Echelon</button>
       </a>
-
       <div class="alert alert-warning" style="margin-bottom:1rem;">
         <div style="font-size:14px;line-height:1.7;">
           <strong>Special notes:</strong><br>
@@ -398,7 +195,6 @@
           &bull; <strong>NICU Cuddler</strong> volunteers must be at least <strong>21 years old</strong>.
         </div>
       </div>
-
       <div class="checkbox-row">
         <input type="checkbox" id="courseConfirm">
         <label class="checkbox-label" for="courseConfirm">I confirm I have completed all tabs of the orientation course, registered my account, and downloaded my certificate of completion.</label>
@@ -409,7 +205,7 @@
     </div>
   </div>
 
-  <!-- PAGE 2: Step 2 – Application -->
+  <!-- PAGE 2: iOTrak Application -->
   <div id="page2" class="page">
     <div class="card">
       <div class="card-header">
@@ -419,25 +215,15 @@
           <div class="card-subtitle">Submit your application through the iOTrak portal</div>
         </div>
       </div>
-
-      <div class="alert alert-info" style="margin-bottom:1rem;">
-        &#9432; Click the button below to open the official AdventHealth Polk volunteer application on iOTrak. Complete all required fields and submit. Then return here and confirm before continuing.
-      </div>
-
+      <div class="alert alert-info" style="margin-bottom:1rem;">&#9432; Click the button below to open the official AdventHealth Polk volunteer application on iOTrak. Complete all required fields and submit. Then return here and confirm before continuing.</div>
       <div style="background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;padding:1.1rem 1.2rem;margin-bottom:1rem;">
         <div style="font-size:13px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:0.75rem;">Official Volunteer Application &mdash; iOTrak</div>
-        <div style="font-size:14px;line-height:1.6;margin-bottom:0.85rem;">
-          Complete all required fields in the iOTrak portal and click <strong>Submit</strong>. Your information will be securely recorded in the AdventHealth Volunteer Services system.
-        </div>
+        <div style="font-size:14px;line-height:1.6;margin-bottom:0.85rem;">Complete all required fields in the iOTrak portal and click <strong>Submit</strong>. Your information will be securely recorded in the AdventHealth Volunteer Services system.</div>
         <a href="https://adventhealth-volunteer-services.iotrak.io/pub/volunteers/applications/new" target="_blank" rel="noopener" style="text-decoration:none;display:block;">
           <button class="btn btn-secondary" style="width:100%;justify-content:center;">&#128196;&nbsp; Open Official Volunteer Application (iOTrak)</button>
         </a>
       </div>
-
-      <div class="alert alert-success" style="margin-bottom:1rem;">
-        &#128274; Your documents will be uploaded <strong>securely in the next step</strong> through this portal. No documents should be sent by email &mdash; all files are stored in a compliant, access-controlled system.
-      </div>
-
+      <div class="alert alert-success" style="margin-bottom:1rem;">&#128274; Your documents will be uploaded <strong>securely in the next step</strong> through this portal. No documents should be sent by email &mdash; all files are stored in a compliant, access-controlled system.</div>
       <div class="checkbox-row">
         <input type="checkbox" id="appConfirm">
         <label class="checkbox-label" for="appConfirm">I confirm I have fully completed and submitted my official volunteer application on the iOTrak portal.</label>
@@ -448,7 +234,7 @@
     </div>
   </div>
 
-  <!-- PAGE 3: Step 3 – Upload Documents for AI Review -->
+  <!-- PAGE 3: Document Upload -->
   <div id="page3" class="page">
     <div class="card">
       <div class="card-header">
@@ -458,9 +244,7 @@
           <div class="card-subtitle" id="docSubtitle">5 documents required — all must be uploaded to continue</div>
         </div>
       </div>
-
       <div class="alert alert-info" style="margin-bottom:1rem;">&#128274; Upload your documents securely below. All files are stored in a compliant, access-controlled SharePoint library &mdash; no documents should be sent by email. The Volunteer Services team will be notified automatically upon submission.</div>
-
       <div class="upload-grid" id="uploadGrid">
         <div class="upload-item" id="upload-cert" onclick="triggerUpload('cert')">
           <input type="file" id="file-cert" accept=".pdf,.jpg,.jpeg,.png" onchange="fileUploaded('cert',this)">
@@ -499,7 +283,6 @@
           <div class="upload-status" id="status-bc">Click to upload</div>
         </div>
       </div>
-
       <div id="uploadCount" style="font-size:13px;color:var(--gray-600);text-align:center;margin-bottom:12px;">0 of 5 documents uploaded</div>
       <button class="btn btn-primary btn-full" id="btnSubmitDocs" onclick="submitDocs()" disabled>Submit for AI Review &rarr;</button>
       <div id="docErr"></div>
@@ -508,7 +291,7 @@
 
   <!-- PAGE 4: AI Review -->
   <div id="page4" class="page">
-    <div class="ai-panel" id="aiPanel">
+    <div class="ai-panel">
       <h3>&#129302; AI Document Review — Microsoft Copilot</h3>
       <p id="aiStatus">Analyzing your documents... <span class="ai-spinner"></span></p>
     </div>
@@ -537,7 +320,6 @@
         </div>
       </div>
       <div class="alert alert-warning">&#9888; Because you are under 18, this application must be signed by both the volunteer candidate and a parent or legal guardian.</div>
-
       <div class="form-section-title">Volunteer Candidate Information</div>
       <div class="field-row">
         <div class="field-group">
@@ -571,7 +353,6 @@
         <label class="field-label">Preferred department(s)</label>
         <input class="field-input" id="t_dept" placeholder="e.g. Emergency, Lab, Imaging">
       </div>
-
       <div class="form-section-title">Parent / Guardian Information</div>
       <div class="field-row">
         <div class="field-group">
@@ -593,14 +374,12 @@
           <input class="field-input" id="t_pgemail" placeholder="parent@email.com">
         </div>
       </div>
-
       <div class="form-section-title">Candidate Signature</div>
       <div class="sig-pad-wrap">
         <canvas class="sig-pad" id="sigCandidate" width="700" height="90"></canvas>
         <span class="sig-clear" onclick="clearSig('sigCandidate','sigCandidateSigned')">Clear</span>
       </div>
       <div class="sig-hint">Draw your signature above using mouse or touch</div>
-
       <div class="form-section-title">Parent / Guardian Signature</div>
       <div class="sig-pad-wrap">
         <canvas class="sig-pad" id="sigParent" width="700" height="90"></canvas>
@@ -609,12 +388,10 @@
       <div class="sig-hint">Parent or guardian: draw your signature above</div>
       <input type="hidden" id="sigCandidateSigned" value="0">
       <input type="hidden" id="sigParentSigned" value="0">
-
       <div class="checkbox-row" style="margin-top:1rem">
         <input type="checkbox" id="t_consent">
         <label class="checkbox-label" for="t_consent">I/We confirm that all information provided is accurate and authorize AdventHealth Polk to conduct a review of this application. Parent/Guardian hereby grants permission for the above-named minor to serve as a volunteer.</label>
       </div>
-
       <br>
       <button class="btn btn-success btn-full" onclick="submitTeenApp()">Submit Teenager Application &#10003;</button>
       <div id="teenErr"></div>
@@ -631,7 +408,6 @@
           <div class="card-subtitle">Please complete all fields and authorize the background check</div>
         </div>
       </div>
-
       <div class="form-section-title">Personal Information</div>
       <div class="field-row">
         <div class="field-group">
@@ -668,10 +444,9 @@
         </div>
       </div>
       <div class="field-group">
-        <label class="field-label">Emergency contact name & phone</label>
+        <label class="field-label">Emergency contact name &amp; phone</label>
         <input class="field-input" id="a_ec" placeholder="e.g. John Smith — (555) 111-2222">
       </div>
-
       <div class="form-section-title">Authorization to Conduct Background Check</div>
       <div class="alert alert-info">&#9432; AdventHealth Polk is required by policy to conduct a criminal background check on all adult volunteer candidates. This check is run through a third-party screening service.</div>
       <br>
@@ -687,7 +462,6 @@
         <input type="checkbox" id="a_bg3">
         <label class="checkbox-label" for="a_bg3">I certify that all information I have provided is true and complete to the best of my knowledge.</label>
       </div>
-
       <div class="form-section-title">Applicant Signature</div>
       <div class="sig-pad-wrap">
         <canvas class="sig-pad" id="sigAdult" width="700" height="90"></canvas>
@@ -695,7 +469,6 @@
       </div>
       <div class="sig-hint">Draw your signature above using mouse or touch</div>
       <input type="hidden" id="sigAdultSigned" value="0">
-
       <br>
       <button class="btn btn-success btn-full" onclick="submitAdultApp()">Submit Adult Application &#10003;</button>
       <div id="adultErr"></div>
@@ -710,10 +483,8 @@
         <h2>Application Submitted!</h2>
         <p>Thank you, <strong id="completeName"></strong>. Your application has been received and is under review by the AdventHealth Polk Volunteer Services team.</p>
       </div>
-      <div class="alert alert-success" style="margin-bottom:1.5rem;">&#128274; Your documents are securely stored in SharePoint — no sensitive files were transmitted by email. The team at <strong>WFDvolunteerspolkmarket@adventhealth.com</strong> has been automatically notified.</div>
-
+      <div class="alert alert-success" style="margin-bottom:1.5rem;">&#128274; Your documents are securely stored in SharePoint — no sensitive files were transmitted by email. The team at <strong>WFD.VolunteerServicesPolk@AdventHealth.com</strong> has been automatically notified.</div>
       <div style="font-size:12px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;color:var(--gray-600);margin-bottom:0.9rem;">Your full journey to becoming a volunteer</div>
-
       <div style="display:flex;flex-direction:column;gap:0;">
 
         <div style="display:flex;gap:0;align-items:stretch;">
@@ -723,7 +494,7 @@
           </div>
           <div style="padding:0 0 16px 12px;">
             <div style="font-size:14px;font-weight:600;">Application review</div>
-            <div style="font-size:13px;color:var(--gray-600);line-height:1.5;">Coordinator reviews your documents, forms, and background check results (adults: 3–5 business days).</div>
+            <div style="font-size:13px;color:var(--gray-600);line-height:1.5;">Coordinator reviews your documents, forms, and background check results (adults: 3-5 business days).</div>
           </div>
         </div>
 
@@ -815,251 +586,165 @@
         </div>
 
       </div>
-
       <div style="margin-top:1.2rem;padding:12px 16px;background:var(--gray-50);border-radius:8px;border:1px solid var(--gray-200);font-size:13px;color:var(--gray-600);">
         For questions at any point after this submission, contact <a href="mailto:Jesse.Birth@AdventHealth.com" style="color:var(--blue);font-weight:600;">Jesse.Birth@AdventHealth.com</a>
       </div>
     </div>
   </div>
 
-</div><!-- /container -->
+</div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ── State ─────────────────────────────────────────────────────────────────────
+<script>
 let state = {
-  name: '', email: '',
-  step: 0,
-  uploads: { cert: false, ss: false, pid: false, covid: false, imm: false, bc: false },
-  isAdult: null,
-  requireBirthCert: false
+  name:'', email:'', step:0,
+  uploads:{ cert:false, ss:false, pid:false, covid:false, imm:false, bc:false },
+  isAdult:null, requireBirthCert:false
 };
-
-const STEPS = 7;
-function setStep(n) {
-  state.step = n;
-  const pct = Math.round((n / STEPS) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressLabel').textContent = 'Step ' + n + ' of ' + STEPS;
-  document.getElementById('progressPct').textContent = pct + '%';
-  for (let i = 1; i <= 7; i++) {
-    const d = document.getElementById('dot' + i);
-    d.className = 'step-dot' + (i < n ? ' done' : i === n ? ' active' : '');
+const STEPS=7;
+function setStep(n){
+  state.step=n;
+  const pct=Math.round((n/STEPS)*100);
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressLabel').textContent='Step '+n+' of '+STEPS;
+  document.getElementById('progressPct').textContent=pct+'%';
+  for(let i=1;i<=7;i++){
+    const d=document.getElementById('dot'+i);
+    d.className='step-dot'+(i<n?' done':i===n?' active':'');
   }
 }
-
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
 }
-
-function showAlert(elId, msg, type) {
-  const el = document.getElementById(elId);
-  el.innerHTML = '<div class="alert alert-' + type + '">' + msg + '</div>';
+function showAlert(elId,msg,type){
+  document.getElementById(elId).innerHTML='<div class="alert alert-'+type+'">'+msg+'</div>';
 }
-
-// ── Login ─────────────────────────────────────────────────────────────────────
-function doLogin() {
-  const name = document.getElementById('loginName').value.trim();
-  const email = document.getElementById('loginEmail').value.trim();
-  if (!name) return showAlert('loginErr', '&#9888; Please enter your full legal name.', 'error');
-  if (!email || !email.includes('@')) return showAlert('loginErr', '&#9888; Please enter a valid email address.', 'error');
-  state.name = name; state.email = email;
-  document.getElementById('progressBar').style.display = 'block';
+function doLogin(){
+  const name=document.getElementById('loginName').value.trim();
+  const email=document.getElementById('loginEmail').value.trim();
+  if(!name) return showAlert('loginErr','&#9888; Please enter your full legal name.','error');
+  if(!email||!email.includes('@')) return showAlert('loginErr','&#9888; Please enter a valid email address.','error');
+  state.name=name; state.email=email;
+  document.getElementById('progressBar').style.display='block';
   setStep(1); showPage('page1');
 }
-
-// ── Course ────────────────────────────────────────────────────────────────────
-function openCourse() {
-  // Real URL is in the <a> tag — this function is a no-op fallback
-}
-function confirmCourse() {
-  if (!document.getElementById('courseConfirm').checked)
-    return showAlert('courseErr', '&#9888; Please confirm you have completed the orientation course and downloaded your certificate.', 'error');
+function confirmCourse(){
+  if(!document.getElementById('courseConfirm').checked)
+    return showAlert('courseErr','&#9888; Please confirm you have completed the orientation course and downloaded your certificate.','error');
   setStep(2); showPage('page2');
 }
-
-// ── Application & Documents (Step 2) ──────────────────────────────────────────
-function confirmIO() {
-  if (!document.getElementById('appConfirm').checked)
-    return showAlert('ioErr', '&#9888; Please confirm you have submitted the iOTrak application and emailed all required documents.', 'error');
+function confirmIO(){
+  if(!document.getElementById('appConfirm').checked)
+    return showAlert('ioErr','&#9888; Please confirm you have fully submitted your iOTrak application.','error');
   setStep(3); showPage('page3');
 }
-
-// ── Documents upload ───────────────────────────────────────────────────────────
-// Core 5 docs (always required). Birth cert (bc) is added when applicant is a minor.
-const CORE_DOCS = ['cert','ss','pid','covid','imm'];
-
-function triggerUpload(doc) {
-  document.getElementById('file-' + doc).click();
-}
-function fileUploaded(doc, input) {
-  if (!input.files.length) return;
-  state.uploads[doc] = true;
-  const item = document.getElementById('upload-' + doc);
-  item.classList.add('uploaded');
-  item.classList.remove('required-flag');
-  document.getElementById('status-' + doc).textContent = '\u2713 ' + input.files[0].name;
+const CORE_DOCS=['cert','ss','pid','covid','imm'];
+function triggerUpload(doc){ document.getElementById('file-'+doc).click(); }
+function fileUploaded(doc,input){
+  if(!input.files.length) return;
+  state.uploads[doc]=true;
+  const item=document.getElementById('upload-'+doc);
+  item.classList.add('uploaded'); item.classList.remove('required-flag');
+  document.getElementById('status-'+doc).textContent='\u2713 '+input.files[0].name;
   updateDocCount();
 }
-function requiredDocs() {
-  return state.requireBirthCert ? [...CORE_DOCS, 'bc'] : CORE_DOCS;
+function requiredDocs(){ return state.requireBirthCert?[...CORE_DOCS,'bc']:CORE_DOCS; }
+function updateDocCount(){
+  const req=requiredDocs();
+  const done=req.filter(k=>state.uploads[k]).length;
+  const total=req.length;
+  document.getElementById('uploadCount').textContent=done+' of '+total+' documents uploaded';
+  const btn=document.getElementById('btnSubmitDocs');
+  btn.disabled=done<total;
+  btn.textContent=done<total?'Submit for AI Review \u2192':'\u2713 All uploaded \u2014 Submit for AI Review \u2192';
 }
-function updateDocCount() {
-  const req = requiredDocs();
-  const done = req.filter(k => state.uploads[k]).length;
-  const total = req.length;
-  document.getElementById('uploadCount').textContent = done + ' of ' + total + ' documents uploaded';
-  const btn = document.getElementById('btnSubmitDocs');
-  btn.disabled = done < total;
-  btn.textContent = done < total ? 'Submit for AI Review \u2192' : '\u2713 All uploaded \u2014 Submit for AI Review \u2192';
-}
-function submitDocs() {
-  const req = requiredDocs();
-  const missing = req.filter(k => !state.uploads[k]).map(k => ({
-    cert:'Orientation Certificate', ss:'Social Security Card', pid:'Photo ID',
-    covid:'COVID Vaccination Card', imm:'Immunization Records', bc:'Birth Certificate'
-  }[k]));
-  if (missing.length) {
-    req.forEach(k => { if (!state.uploads[k]) document.getElementById('upload-'+k).classList.add('required-flag'); });
-    return showAlert('docErr', '&#9888; Missing: ' + missing.join(', ') + '. All required documents must be uploaded.', 'error');
+function submitDocs(){
+  const req=requiredDocs();
+  const labels={cert:'Orientation Certificate',ss:'Social Security Card',pid:'Photo ID',covid:'COVID Vaccination Card',imm:'Immunization Records',bc:'Birth Certificate'};
+  const missing=req.filter(k=>!state.uploads[k]).map(k=>labels[k]);
+  if(missing.length){
+    req.forEach(k=>{ if(!state.uploads[k]) document.getElementById('upload-'+k).classList.add('required-flag'); });
+    return showAlert('docErr','&#9888; Missing: '+missing.join(', ')+'. All required documents must be uploaded.','error');
   }
   setStep(4); showPage('page4'); runAIReview();
 }
-
-// ── AI Review Simulation ───────────────────────────────────────────────────────
-function runAIReview() {
-  const messages = [
-    'Uploading documents to SharePoint...',
-    'Invoking Microsoft Copilot AI Builder...',
-    'Extracting identity fields from birth certificate...',
-    'Cross-referencing with passport data...',
-    'Calculating age as of today\'s date...',
-    'Review complete.'
-  ];
-  let i = 0;
-  const interval = setInterval(() => {
-    if (i < messages.length - 1) {
-      document.getElementById('aiStatus').innerHTML = messages[i] + ' <span class="ai-spinner"></span>';
-      i++;
-    } else {
-      clearInterval(interval);
-      document.getElementById('aiStatus').textContent = messages[i];
-      setTimeout(showAIResult, 600);
-    }
-  }, 900);
+function runAIReview(){
+  const msgs=['Uploading documents to SharePoint...','Invoking Microsoft Copilot AI Builder...','Extracting identity fields from birth certificate...','Cross-referencing with passport data...','Calculating age as of today\'s date...','Review complete.'];
+  let i=0;
+  const iv=setInterval(()=>{
+    if(i<msgs.length-1){ document.getElementById('aiStatus').innerHTML=msgs[i]+' <span class="ai-spinner"></span>'; i++; }
+    else{ clearInterval(iv); document.getElementById('aiStatus').textContent=msgs[i]; setTimeout(showAIResult,600); }
+  },900);
 }
-function showAIResult() {
-  const demoAge = Math.random() > 0.5 ? 22 : 16;
-  state.isAdult = demoAge >= 18;
-  state.requireBirthCert = !state.isAdult;
-
-  // If minor, reveal the birth certificate upload tile and update the subtitle
-  if (!state.isAdult) {
-    const bcTile = document.getElementById('upload-bc');
-    if (bcTile) bcTile.style.display = '';
-    const sub = document.getElementById('docSubtitle');
-    if (sub) sub.textContent = '6 documents required (includes Birth Certificate for applicants under 18)';
+function showAIResult(){
+  const demoAge=Math.random()>0.5?22:16;
+  state.isAdult=demoAge>=18; state.requireBirthCert=!state.isAdult;
+  if(!state.isAdult){
+    const bc=document.getElementById('upload-bc'); if(bc) bc.style.display='';
+    const sub=document.getElementById('docSubtitle'); if(sub) sub.textContent='6 documents required (includes Birth Certificate for applicants under 18)';
     updateDocCount();
   }
-
-  const resultEl = document.getElementById('aiResult');
-  document.getElementById('aiResultSub').textContent = state.isAdult
-    ? 'Applicant is ' + demoAge + ' years old — Adult application required'
-    : 'Applicant is ' + demoAge + ' years old — Teenager application required';
-  document.getElementById('aiResultBody').innerHTML = state.isAdult
-    ? '<div class="alert alert-success">&#10003; Identity documents verified. Applicant is 18 or older on the date of this application. An Adult Volunteer Application and background check authorization will now be provided.</div>'
-    : '<div class="alert alert-warning">&#9888; Identity documents verified. Applicant is under 18 on the date of this application. A Teenager Application for Volunteer must be signed by both the candidate and a parent or legal guardian.<br><br>If you have not yet uploaded your <strong>Birth Certificate</strong>, please go back and upload it before proceeding.</div>';
-  document.getElementById('btnToForm').textContent = state.isAdult
-    ? '\u2192 Open Adult Application & Background Check Authorization'
-    : '\u2192 Open Teenager Application (Parental Signature Required)';
-  resultEl.style.display = 'block';
+  document.getElementById('aiResultSub').textContent=state.isAdult?'Applicant is '+demoAge+' years old — Adult application required':'Applicant is '+demoAge+' years old — Teenager application required';
+  document.getElementById('aiResultBody').innerHTML=state.isAdult
+    ?'<div class="alert alert-success">&#10003; Identity documents verified. Applicant is 18 or older. An Adult Volunteer Application and background check authorization will now be provided.</div>'
+    :'<div class="alert alert-warning">&#9888; Identity documents verified. Applicant is under 18. A Teenager Application must be signed by both the candidate and a parent or legal guardian.<br><br>If you have not yet uploaded your <strong>Birth Certificate</strong>, please go back and upload it before proceeding.</div>';
+  document.getElementById('btnToForm').textContent=state.isAdult?'\u2192 Open Adult Application & Background Check Authorization':'\u2192 Open Teenager Application (Parental Signature Required)';
+  document.getElementById('aiResult').style.display='block';
   setStep(5);
 }
-function goToForm() {
-  const pg = state.isAdult ? 'page5adult' : 'page5teen';
+function goToForm(){
+  const pg=state.isAdult?'page5adult':'page5teen';
   showPage(pg);
-  requestAnimationFrame(() => {
-    if (state.isAdult) {
-      initSig('sigAdult', 'sigAdultSigned');
-    } else {
-      initSig('sigCandidate', 'sigCandidateSigned');
-      initSig('sigParent',    'sigParentSigned');
-    }
+  requestAnimationFrame(()=>{
+    if(state.isAdult){ initSig('sigAdult','sigAdultSigned'); }
+    else{ initSig('sigCandidate','sigCandidateSigned'); initSig('sigParent','sigParentSigned'); }
   });
 }
-
-// ── Signatures ────────────────────────────────────────────────────────────────
-const _sigInited = new Set();
-
-function initSig(canvasId, signedId) {
-  if (_sigInited.has(canvasId)) return;
-  const canvas = document.getElementById(canvasId);
-  if (!canvas) return;
-
-  // Size the canvas to match its CSS-rendered width so coordinates are correct
-  const rect = canvas.getBoundingClientRect();
-  if (rect.width > 0) {
-    canvas.width  = rect.width;
-    canvas.height = rect.height || 90;
-  }
-
-  const ctx = canvas.getContext('2d');
-  let drawing = false;
-  ctx.strokeStyle = '#1565C0'; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-
-  function getPos(e) {
-    const r = canvas.getBoundingClientRect();
-    const src = e.touches ? e.touches[0] : e;
-    return [(src.clientX - r.left) * (canvas.width / r.width),
-            (src.clientY - r.top)  * (canvas.height / r.height)];
-  }
-
-  canvas.addEventListener('mousedown',  e => { drawing = true; ctx.beginPath(); ctx.moveTo(...getPos(e)); });
-  canvas.addEventListener('mousemove',  e => { if (!drawing) return; ctx.lineTo(...getPos(e)); ctx.stroke(); });
-  canvas.addEventListener('mouseup',    () => { drawing = false; document.getElementById(signedId).value = '1'; });
-  canvas.addEventListener('mouseleave', () => { drawing = false; });
-  canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing = true; ctx.beginPath(); ctx.moveTo(...getPos(e)); }, {passive:false});
-  canvas.addEventListener('touchmove',  e => { e.preventDefault(); if (!drawing) return; ctx.lineTo(...getPos(e)); ctx.stroke(); }, {passive:false});
-  canvas.addEventListener('touchend',   () => { drawing = false; document.getElementById(signedId).value = '1'; });
-
+const _sigInited=new Set();
+function initSig(canvasId,signedId){
+  if(_sigInited.has(canvasId)) return;
+  const canvas=document.getElementById(canvasId); if(!canvas) return;
+  const rect=canvas.getBoundingClientRect();
+  if(rect.width>0){ canvas.width=rect.width; canvas.height=rect.height||90; }
+  const ctx=canvas.getContext('2d');
+  let drawing=false;
+  ctx.strokeStyle='#1565C0'; ctx.lineWidth=2; ctx.lineCap='round'; ctx.lineJoin='round';
+  function getPos(e){ const r=canvas.getBoundingClientRect(); const s=e.touches?e.touches[0]:e; return[(s.clientX-r.left)*(canvas.width/r.width),(s.clientY-r.top)*(canvas.height/r.height)]; }
+  canvas.addEventListener('mousedown', e=>{ drawing=true; ctx.beginPath(); ctx.moveTo(...getPos(e)); });
+  canvas.addEventListener('mousemove', e=>{ if(!drawing) return; ctx.lineTo(...getPos(e)); ctx.stroke(); });
+  canvas.addEventListener('mouseup',   ()=>{ drawing=false; document.getElementById(signedId).value='1'; });
+  canvas.addEventListener('mouseleave',()=>{ drawing=false; });
+  canvas.addEventListener('touchstart',e=>{ e.preventDefault(); drawing=true; ctx.beginPath(); ctx.moveTo(...getPos(e)); },{passive:false});
+  canvas.addEventListener('touchmove', e=>{ e.preventDefault(); if(!drawing) return; ctx.lineTo(...getPos(e)); ctx.stroke(); },{passive:false});
+  canvas.addEventListener('touchend',  ()=>{ drawing=false; document.getElementById(signedId).value='1'; });
   _sigInited.add(canvasId);
 }
-
-function pos(e, canvas) {
-  const r = canvas.getBoundingClientRect();
-  return [(e.clientX - r.left) * (canvas.width / r.width), (e.clientY - r.top) * (canvas.height / r.height)];
+function clearSig(canvasId,signedId){
+  const c=document.getElementById(canvasId);
+  c.getContext('2d').clearRect(0,0,c.width,c.height);
+  document.getElementById(signedId).value='0';
 }
-
-function clearSig(canvasId, signedId) {
-  const c = document.getElementById(canvasId);
-  c.getContext('2d').clearRect(0, 0, c.width, c.height);
-  document.getElementById(signedId).value = '0';
-}
-
-// ── Teen Form ─────────────────────────────────────────────────────────────────
-function submitTeenApp() {
-  const req = ['t_fname','t_lname','t_dob','t_phone','t_address','t_school','t_pgname','t_pgrel','t_pgphone'];
-  for (const id of req) {
-    if (!document.getElementById(id).value.trim())
-      return showAlert('teenErr', '&#9888; Please complete all required fields.', 'error');
-  }
-  if (!document.getElementById('t_consent').checked)
-    return showAlert('teenErr', '&#9888; Both the candidate and parent/guardian must consent.', 'error');
-  if (document.getElementById('sigCandidateSigned').value !== '1')
-    return showAlert('teenErr', '&#9888; Candidate signature is required.', 'error');
-  if (document.getElementById('sigParentSigned').value !== '1')
-    return showAlert('teenErr', '&#9888; Parent/Guardian signature is required.', 'error');
+function submitTeenApp(){
+  const req=['t_fname','t_lname','t_dob','t_phone','t_address','t_school','t_pgname','t_pgrel','t_pgphone'];
+  for(const id of req){ if(!document.getElementById(id).value.trim()) return showAlert('teenErr','&#9888; Please complete all required fields.','error'); }
+  if(!document.getElementById('t_consent').checked) return showAlert('teenErr','&#9888; Both the candidate and parent/guardian must consent.','error');
+  if(document.getElementById('sigCandidateSigned').value!=='1') return showAlert('teenErr','&#9888; Candidate signature is required.','error');
+  if(document.getElementById('sigParentSigned').value!=='1') return showAlert('teenErr','&#9888; Parent/Guardian signature is required.','error');
   completeApp();
 }
-
-// ── Adult Form ────────────────────────────────────────────────────────────────
-function submitAdultApp() {
-  const req = ['a_fname','a_lname','a_dob','a_phone','a_address'];
-  for (const id of req) {
-    if (!document.getElementById(id).value.trim())
-      return showAlert('adultErr', '&#9888; Please complete all required fields.', 'error');
-  }
-  if (!document.getElementById('a_bg1').checked || !document.getElementById('a_bg2').checked || !document.getElementById('a_bg3').checked)
-    return showAlert('adultErr', '&#9888; You must authorize the background check and certify your information.', 'error');
-  if (document.g
+function submitAdultApp(){
+  const req=['a_fname','a_lname','a_dob','a_phone','a_address'];
+  for(const id of req){ if(!document.getElementById(id).value.trim()) return showAlert('adultErr','&#9888; Please complete all required fields.','error'); }
+  if(!document.getElementById('a_bg1').checked||!document.getElementById('a_bg2').checked||!document.getElementById('a_bg3').checked)
+    return showAlert('adultErr','&#9888; You must authorize the background check and certify your information.','error');
+  if(document.getElementById('sigAdultSigned').value!=='1') return showAlert('adultErr','&#9888; Your signature is required.','error');
+  completeApp();
+}
+function completeApp(){
+  document.getElementById('completeName').textContent=state.name;
+  setStep(7); showPage('page6');
+}
+</script>
+</body>
+</html>

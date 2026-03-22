@@ -3,9 +3,12 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AdventHealth Polk County Market — Volunteer Onboarding Portal</title>
+<title>AdventHealth Polk Market — Volunteer Onboarding Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --ah-blue:#006298; --ah-sky:#00A3E0; --ah-green:#84BD00;
@@ -227,11 +230,8 @@
 <header>
   <div class="header-brand">
     <div class="header-logo">
-      <!-- Official AdventHealth SVG logo from Wikimedia Commons (CC / trademark — internal operational use) -->
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/AdventHealth_Logo.svg/320px-AdventHealth_Logo.svg.png"
-        alt="AdventHealth"
-        onerror="this.parentNode.innerHTML='<span style=\'font-weight:900;color:#006298;font-size:13px;\'>AH</span>'">
+      <!-- Official AdventHealth logo — inline SVG, cropped to icon mark only -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="580 10 320 230" style="width:44px;height:44px;display:block;"><defs><style>.a{fill:#005c95;}.b{fill:#9098a1;}.c{fill:#1ba8e1;}.d{fill:#82c342;}.e{fill:#005d56;}</style></defs><path class="b" d="M653.08,63.12l5.64,35.66-25.25,4-5.65-35.66,25.26-4m2.91-4-32.18,5.1,6.75,42.57,32.17-5.09L656,59.11Z"/><path class="a" d="M591.76,29.64h21.09A21.33,21.33,0,0,1,634.18,51V78.63a0,0,0,0,1,0,0H606.51A21.33,21.33,0,0,1,585.18,57.3V36.21a6.58,6.58,0,0,1,6.58-6.58Z" transform="translate(-0.96 96.04) rotate(-9)"/><path class="c" d="M663.56,20.58h21.09a6.59,6.59,0,0,1,6.59,6.59V48.26A21.34,21.34,0,0,1,669.89,69.6H642.22a0,0,0,0,1,0,0V41.92a21.34,21.34,0,0,1,21.34-21.34Z" transform="translate(1.15 104.85) rotate(-9)"/><path class="d" d="M617.76,85.71h24.68a0,0,0,0,1,0,0v22.54a18,18,0,0,1-18,18H607.81a5.88,5.88,0,0,1-5.88-5.88V101.54a15.83,15.83,0,0,1,15.83-15.83Z" transform="translate(-8.92 98.64) rotate(-9)"/><path class="e" d="M650.59,78h24.69a15.83,15.83,0,0,1,15.83,15.83v18.81a5.88,5.88,0,0,1-5.88,5.88H668.57a18,18,0,0,1-18-18V78a0,0,0,0,1,0,0Z" transform="translate(-7.11 106.15) rotate(-9)"/></svg>
     </div>
     <div class="header-text-wrap">
       <div class="header-title">AdventHealth</div>
@@ -271,13 +271,16 @@
         </div>
       </div>
 
-      <div class="field-group">
-        <label class="field-label">Full legal name</label>
-        <input id="loginName" class="field-input" placeholder="e.g. Maria Elena Lopez" autocomplete="off">
+      <div class="alert alert-warning" style="margin-bottom:1rem;margin-top:0;">
+        &#9888; <div>Please enter your name and email address <strong>exactly as you typed them</strong> when you signed up on the AdventHealth volunteer website. This allows us to find your existing registration. If you are unsure, check the confirmation email you received after signing up online.</div>
       </div>
       <div class="field-group">
-        <label class="field-label">Email address</label>
-        <input id="loginEmail" class="field-input" type="email" placeholder="you@email.com">
+        <label class="field-label">Full name — exactly as you typed it when you signed up online</label>
+        <input id="loginName" class="field-input" placeholder="Enter your name exactly as you typed it on the website" autocomplete="off">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Email address — exactly as you typed it when you signed up online</label>
+        <input id="loginEmail" class="field-input" type="email" placeholder="Enter the same email address you used when you signed up">
       </div>
 
       <!-- CANDIDATE DISCLOSURE — no AI-processing bullet per instruction -->
@@ -286,9 +289,8 @@
         <div class="disclosure-body">
           By using this portal, you understand and agree to the following:
           <ul>
-            <li>Your personal information (name, email address, date of birth, and identification documents) will be collected and stored securely within AdventHealth's environment.</li>
+            <li>Your personal information (name, email address, date of birth, and identification documents) will be collected and stored securely within AdventHealth's systems.</li>
             <li>Your information will be shared only with AdventHealth Polk County Market Volunteer Services staff for the purpose of processing your volunteer application.</li>
-            <li>No documents will be transmitted by email. All files are stored in a compliant, access-controlled document library.</li>
             <li>If you are approved as a volunteer, your data will be entered into AdventHealth's systems to create your official volunteer record.</li>
             <li>Adult applicants will be subject to a criminal background check as required by AdventHealth policy.</li>
             <li>Your data is governed in accordance with AdventHealth's privacy policy and applicable federal and state regulations.</li>
@@ -340,7 +342,7 @@
           </div>
         </div>
       </div>
-      <a href="https://www.echeloned.com/fhvolunteercd/cid/8060/volunteer-registration-and-introduction" target="_blank" rel="noopener" style="display:block;text-decoration:none;margin-bottom:1rem;">
+      <a href="https://echelon.io/adventhealth-polk-volunteer-orientation" target="_blank" rel="noopener" style="display:block;text-decoration:none;margin-bottom:1rem;">
         <button class="btn btn-secondary" style="width:100%;justify-content:center;">&#127760;&nbsp; Open Volunteer Orientation Course &mdash; Echelon</button>
       </a>
       <div class="alert alert-warning" style="margin-bottom:1rem;">
@@ -961,7 +963,7 @@ const DOC_LABELS = {
 
 // DocumentType values match the Volunteer Application Attachments library metadata schema
 const DOC_TYPE_MAP = {
-  cert:  'Application PDF',      // orientation cert treated as application-class doc
+  cert:  'Orientation Certificate',
   ss:    'Social Security Card',
   pid:   'Photo ID',
   covid: 'COVID Vaccination Card',

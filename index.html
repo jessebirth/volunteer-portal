@@ -207,6 +207,10 @@
   .copilot-send { background:var(--ah-blue); color:white; border:none; border-radius:10px; padding:9px 14px; font-size:13px; font-weight:900; cursor:pointer; }
   .copilot-send:hover { background:#004F7A; }
 
+  /* ── Word break for long emails in alerts ── */
+  .alert a { word-break:break-all; }
+  .alert strong a { word-break:break-all; }
+
   /* ── Responsive ── */
   @media (max-width:520px) {
     .field-row      { grid-template-columns:1fr; }
@@ -604,7 +608,7 @@
         <h2>Application Submitted!</h2>
         <p>Thank you, <strong id="completeName"></strong>. Your application has been received and is under review by the AdventHealth Polk County Market Volunteer Services team.</p>
       </div>
-      <div class="alert alert-success" style="margin-bottom:1rem;">&#128274; Your documents are securely stored and protected. No sensitive files were transmitted by email. The team at <strong><a href="mailto:WFD.VolunteerServicesPolk@AdventHealth.com" style="color:var(--ah-blue);font-weight:700;">WFD.VolunteerServicesPolk@AdventHealth.com</a></strong> has been automatically notified.</div>
+      <div class="alert alert-success" style="margin-bottom:1rem;">&#128274; Your documents are securely stored and protected. No sensitive files were transmitted by email. The Volunteer Services team has been automatically notified.</div>
       <div class="billing-card">
         <div class="billing-title">&#127973; Centra Care &mdash; Volunteer Health Screening (auto-filled)</div>
         <div class="billing-row"><span class="billing-key">Campus</span><span class="billing-val" id="ccCampus"></span></div>
@@ -626,12 +630,19 @@
       <div style="margin-top:1.2rem;padding:12px 16px;background:var(--gray-50);border-radius:12px;border:1px solid var(--gray-200);font-size:13px;color:var(--gray-600);">
         For questions after this submission contact <a href="mailto:WFD.VolunteerServicesPolk@AdventHealth.com" style="color:var(--ah-blue);font-weight:700;">WFD.VolunteerServicesPolk@AdventHealth.com</a>
       </div>
-      <div class="coordinator-strip">
-        <div>
-          <div class="coordinator-strip-label">&#128202; Coordinator / Staff only</div>
-          <div class="coordinator-strip-sub">Open the Form Request Management dashboard to review, triage, and action this submission.</div>
+      <!-- Staff access — hidden from view, triggered by key combo only -->
+      <div id="staffAccessPanel" style="display:none;margin-top:1.5rem;padding:16px;background:rgba(0,98,152,0.06);border:1px solid rgba(0,98,152,0.16);border-radius:12px;">
+        <div style="font-size:13px;font-weight:900;color:var(--ah-blue);margin-bottom:8px;">&#128274; Staff Verification Required</div>
+        <div style="font-size:13px;color:var(--gray-600);margin-bottom:12px;">Enter your 4-digit staff access code to open the coordinator dashboard.</div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <input type="password" id="staffPin" maxlength="4" pattern="[0-9]{4}"
+            class="field-input" style="max-width:120px;letter-spacing:6px;font-size:18px;font-weight:900;text-align:center;"
+            placeholder="••••" oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+            onkeydown="if(event.key==='Enter') verifyStaffPin()">
+          <button class="btn btn-bi" onclick="verifyStaffPin()">Verify &rarr;</button>
         </div>
-        <button class="btn btn-bi" onclick="showPage('pageAdmin')">Open Coordinator Dashboard &rarr;</button>
+        <div id="staffPinErr" style="font-size:12px;color:var(--ah-red);margin-top:6px;"></div>
+        <div style="font-size:11px;color:var(--gray-400);margin-top:8px;">Contact your Volunteer Services coordinator if you need your access code.</div>
       </div>
     </div>
   </div>
@@ -1032,7 +1043,12 @@ function submitDocs(){
   const missing = req.filter(k=>!state.uploads[k]).map(k=>DOC_LABELS[k]);
   if(missing.length){
     req.forEach(k=>{ if(!state.uploads[k]) document.getElementById('upload-'+k).classList.add('required-flag'); });
-    return showAlert('docErr','&#9888; Missing: '+missing.join(', ')+'. All required documents must be uploaded.','error');
+    return showAlert('docErr','&#9888; Missing: '+missing.join(', ')+'. All required documents must be uploaded before you can continue.','error');
+  }
+  // Hard gate: double-check all required uploads are confirmed in state
+  const allConfirmed = req.every(k => state.uploads[k] === true);
+  if(!allConfirmed){
+    return showAlert('docErr','&#9888; Please upload all required documents before continuing.','error');
   }
   // Notify Power Automate — triggers document validation gate and AI Builder
   postToPowerAutomate('all_documents_submitted', {
@@ -1239,6 +1255,45 @@ function submitAdultApp(){
   completeApp();
 }
 
+// ── Staff PIN verification ────────────────────────────────────────────────
+// Default staff PIN — change this value to your preferred 4-digit code
+// before deploying. Do not share with volunteers.
+const STAFF_PIN = '2024';
+
+// Secret trigger: on page6, typing "staff" (invisibly) reveals the panel
+let _staffKeySeq = '';
+document.addEventListener('keydown', function(e){
+  if(document.getElementById('page6') && document.getElementById('page6').classList.contains('active')){
+    _staffKeySeq = (_staffKeySeq + e.key).slice(-5);
+    if(_staffKeySeq === 'staff'){
+      const panel = document.getElementById('staffAccessPanel');
+      if(panel){ panel.style.display = 'block'; document.getElementById('staffPin').focus(); }
+      _staffKeySeq = '';
+    }
+  } else {
+    _staffKeySeq = '';
+  }
+});
+
+function verifyStaffPin(){
+  const pin = document.getElementById('staffPin').value.trim();
+  const errEl = document.getElementById('staffPinErr');
+  if(pin.length !== 4){
+    errEl.textContent = 'Please enter your 4-digit access code.';
+    return;
+  }
+  if(pin === STAFF_PIN){
+    errEl.textContent = '';
+    document.getElementById('staffAccessPanel').style.display = 'none';
+    document.getElementById('staffPin').value = '';
+    showPage('pageAdmin');
+  } else {
+    errEl.textContent = 'Incorrect access code. Please try again.';
+    document.getElementById('staffPin').value = '';
+    document.getElementById('staffPin').focus();
+  }
+}
+
 // ── Completion ─────────────────────────────────────────────────────────────
 function completeApp(){
   document.getElementById('completeName').textContent = state.name;
@@ -1285,7 +1340,7 @@ function getCopilotReply(q){
   if(t.includes('status')||t.includes('approved')||t.includes('heard back'))     return KB.status;
   if(t.includes('contact')||t.includes('email')||t.includes('reach'))            return KB.contact;
   if(t.includes('background')||t.includes('criminal'))                           return KB.background;
-  if(t.includes('badge')||t.includes('opid')||t.includes('hr office'))           return KB.badge;
+  if(t.includes('badge')||t.includes('opid'))                                    return KB.badge;
   if(t.includes('orientation')||t.includes('department')||t.includes('placement')) return KB.orientation;
   if(t.includes('privacy')||t.includes('data')||t.includes('secure'))            return KB.privacy;
   return KB.default;
